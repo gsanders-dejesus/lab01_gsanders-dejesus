@@ -66,7 +66,7 @@ IntList& IntList::operator=(const IntList& source){
 
 // constructor sets up empty list
 IntList::IntList(){ 
-    //IMPLEMENT THIS 
+    head = nullptr; 
 }
 
 
