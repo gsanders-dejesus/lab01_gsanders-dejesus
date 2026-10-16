@@ -1,6 +1,6 @@
 // intlist.cpp
 // Implements class IntList
-// YOUR NAME(S), AND DATE
+// Gabriel Sanders-DeJesus, Oct 16 2026
 
 #include "intlist.h"
 
@@ -10,18 +10,22 @@ using std::cout;
 // copy constructor
 IntList::IntList(const IntList& source) {
     head = nullptr;
-    Node *tail = nullptr;
-    for(Node *p = source.head; p; p = p->next){
-	    Node *n = new Node;
-	    n->info = p->info;
-	    n->next = nullptr;
-	    if(tail){
-		    tail->next = n;
-	    }
-	    else{
-		    head = n;
-	    }
-	    tail = n;
+    for (Node* p = source.head; p != nullptr; p = p->next) {
+        Node* n = new Node;
+        n->info = p->info;
+        n->next = nullptr;
+
+        if (head == nullptr) {
+            head = n;
+        } else {
+            Node* curr = head;
+
+            while (curr->next != nullptr) {
+                curr = curr->next;
+            }
+
+            curr->next = n;
+        }
     }
 }
 
@@ -136,27 +140,11 @@ int IntList::count() const {
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
 
-    while (head != nullptr) {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-    }
+    IntList temp(source);
 
-    Node* tail = nullptr;
-
-    for (Node* p = source.head; p != nullptr; p = p->next) {
-        Node* n = new Node;
-        n->info = p->info;
-        n->next = nullptr;
-
-        if (head == nullptr) {
-            head = n;
-        } else {
-            tail->next = n;
-        }
-
-        tail = n;
-    }
+    Node* old = head;
+    head = temp.head;
+    temp.head = old;
 
     return *this;
 }
